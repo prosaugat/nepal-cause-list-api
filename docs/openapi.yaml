@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: Nepal Cause List API
+  version: 1.0.0
+  description: >
+    Fetch daily, weekly and supplementary cause lists (पेशी सूची) for every
+    Nepal court: Supreme, High, District, Special and Consumer courts.
+    Dates are Bikram Sambat (BS), formatted YYYY-MM-DD.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/courts:
+    get:
+      summary: List supported courts
+      responses:
+        "200":
+          description: Supported courts and whether each needs a court id.
+  /v1/today:
+    get:
+      summary: Today's date in Bikram Sambat
+      responses:
+        "200":
+          description: Current BS date.
+  /v1/highcourt/courts:
+    get:
+      summary: High court directory (id + names)
+      responses:
+        "200":
+          description: List of high courts.
+  /v1/districtcourt/courts:
+    get:
+      summary: District court directory (id + names)
+      responses:
+        "200":
+          description: List of district courts.
+  /v1/{court}/cause-lists/{listType}:
+    get:
+      summary: Fetch a cause list
+      parameters:
+        - name: court
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [supremecourt, highcourt, districtcourt, specialcourt, consumercourt]
+        - name: listType
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [daily, weekly, supplementary]
+        - name: date
+          in: query
+          required: false
+          description: BS date YYYY-MM-DD. Defaults to today.
+          schema:
+            type: string
+            example: "2083-06-12"
+        - name: court_id
+          in: query
+          required: false
+          description: Required for highcourt and districtcourt.
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cause list result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CauseListResponse"
+        "400":
+          description: Invalid parameters.
+        "502":
+          description: Upstream court website failed.
+components:
+  schemas:
+    CauseListResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        cached: { type: boolean }
+        court: { type: string }
+        list_type: { type: string }
+        date: { type: string }
+        data:
+          type: object
+          properties:
+            success: { type: boolean }
+            court_name: { type: string }
+            court_name_en: { type: string }
+            list_type: { type: string }
+            date: { type: string }
+            fetched_at: { type: string, format: date-time }
+            source_url: { type: string }
+            total_benches: { type: integer }
+            total_cases: { type: integer }
+            bench_options:
+              type: array
+              items:
+                type: object
+                properties:
+                  value: { type: string }
+                  text: { type: string }
+            benches:
+              type: array
+              items:
+                $ref: "#/components/schemas/Bench"
+    Bench:
+      type: object
+      properties:
+        bench_id: { type: string }
+        bench_label: { type: string }
+        judges:
+          type: array
+          items: { type: string }
+        entries_count: { type: integer }
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Entry"
+    Entry:
+      type: object
+      properties:
+        serial: { type: string }
+        case_number: { type: string }
+        subject: { type: string }
+        parties: { type: string }
+        remarks: { type: string }

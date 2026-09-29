@@ -1,0 +1,36 @@
+{
+    "name": "nepal-courts/cause-list-api",
+    "description": "Fetch daily, weekly and supplementary cause lists for every Nepal court (Supreme, High, District, Special, Consumer) through a clean PHP library and a small JSON REST API.",
+    "type": "library",
+    "keywords": ["nepal", "court", "cause-list", "peshi", "scraper", "legal-tech", "api", "supreme-court"],
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "^7.5",
+        "symfony/dom-crawler": "^6.4 || ^7.0",
+        "symfony/css-selector": "^6.4 || ^7.0",
+        "php-webdriver/webdriver": "^1.15"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5 || ^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NepalCauseList\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NepalCauseList\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "serve": "php -S localhost:8080 -t public",
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

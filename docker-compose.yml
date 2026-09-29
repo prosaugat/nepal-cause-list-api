@@ -1,0 +1,20 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SELENIUM_HUB: http://selenium:4444/wd/hub
+      CACHE_DIR: /tmp/nepal-cause-list-cache
+      CACHE_TTL: "1800"
+    depends_on:
+      - selenium
+    restart: unless-stopped
+
+  # Headless Chrome, used only to clear the Supreme Court's F5 WAF challenge.
+  selenium:
+    image: selenium/standalone-chrome:latest
+    shm_size: "2gb"
+    ports:
+      - "4444:4444"
+    restart: unless-stopped
