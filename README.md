@@ -41,8 +41,21 @@ Every other court works over plain HTTP.
 
 ### Option B — Use it as a PHP library
 
+Not on Packagist yet, so install straight from GitHub. Add the repository to
+your project's `composer.json`:
+
+```json
+{
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/prosaugat/nepal-cause-list-api" }
+    ]
+}
+```
+
+Then require it:
+
 ```bash
-composer require nepal-courts/cause-list-api
+composer require prosaugat/nepal-cause-list-api:dev-main
 ```
 
 ```php

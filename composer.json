@@ -1,5 +1,5 @@
 {
-    "name": "nepal-courts/cause-list-api",
+    "name": "prosaugat/nepal-cause-list-api",
     "description": "Fetch daily, weekly and supplementary cause lists for every Nepal court (Supreme, High, District, Special, Consumer) through a clean PHP library and a small JSON REST API.",
     "type": "library",
     "keywords": ["nepal", "court", "cause-list", "peshi", "scraper", "legal-tech", "api", "supreme-court"],
